@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, Response
+from flask import Flask, request, redirect, url_for, Response, make_response
 app = Flask(__name__)
 
 
@@ -171,35 +171,73 @@ def raw_estimator_api():
     if request.method == 'POST':
         # data = request.data
         data = ast.literal_eval(request.data.decode("utf-8"))
-        return estimator(data)
+        # return estimator(data)
+        resp = make_response(estimator(data))
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
         # return redirect(url_for('estimator_api_data', incoming_data = data))
     else:
-        return "2. Sorry, the request method is not a POST request."
+        return "1. Sorry, the request method is not a POST request."
 
 
-@app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
-def the_estimator_api(format_type):
+
+
+@app.route('/api/v1/on-covid-19/json', methods = ['POST'])
+def the_estimator_api_json():
     if request.method == 'POST':
-        if format_type == 'json':
-            data = ast.literal_eval(request.data.decode("utf-8"))
-            print(data)
-            r = Response(response=estimator(data), status=200, mimetype="application/json")
-            r.headers["Content-Type"] = "text/json; charset=utf-8"
-            print(r)
-            return r
-            
-        elif format_type == 'xml':
-            data = ast.literal_eval(request.data.decode("utf-8"))
-            print(data)
-            r = Response(response=estimator(data), status=200, mimetype="application/xml")
-            r.headers["Content-Type"] = "text/xml; charset=utf-8"
-            print(r)
-            return r
-            # return json2xml(estimator(data)) #Response(estimator(data), mimetype='text/xml')
-        else:
-            return "This format parameter is not allowed."
+        data = ast.literal_eval(request.data.decode("utf-8"))
+        # print(data)
+        # return estimator(data)
+        resp = make_response(estimator(data))
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
     else:
-        return "Sorry, the request method is not a POST request."
+        resp = make_response({"resp_desc":"3. Sorry, the request method is not a POST request."})
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
+
+
+
+
+@app.route('/api/v1/on-covid-19/xml', methods = ['POST'])
+def the_estimator_api_xml():
+    if request.method == 'POST':
+        data = ast.literal_eval(request.data.decode("utf-8"))
+        # print(data)
+        # return estimator(data)
+
+        resp = make_response(json2xml(estimator(data)))
+        resp.headers['Content-type'] = 'application/xml; charset=utf-8'
+        return resp
+    else:
+        resp = make_response('<resp_desc>3. Sorry, the request method is not a POST request.</resp_desc>')
+        resp.headers['Content-type'] = 'application/xml; charset=utf-8'
+        return resp
+
+
+# @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
+# def the_estimator_api(format_type):
+#     if request.method == 'POST':
+#         if format_type == 'json':
+#             data = ast.literal_eval(request.data.decode("utf-8"))
+#             print(data)
+#             r = Response(response=estimator(data), status=200, mimetype="application/json")
+#             r.headers["Content-Type"] = "text/json; charset=utf-8"
+#             print(r)
+#             return r
+            
+#         elif format_type == 'xml':
+#             data = ast.literal_eval(request.data.decode("utf-8"))
+#             print(data)
+#             r = Response(response=estimator(data), status=200, mimetype="application/xml")
+#             r.headers["Content-Type"] = "text/xml; charset=utf-8"
+#             print(r)
+#             return r
+#             # return json2xml(estimator(data)) #Response(estimator(data), mimetype='text/xml')
+#         else:
+#             return "This format parameter is not allowed."
+#     else:
+#         return "Sorry, the request method is not a POST request."
 
 
 
