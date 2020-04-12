@@ -161,12 +161,15 @@ def estimator_api_data():
         # data = request.data
         # print(ast.literal_eval(request.data.decode("utf-8")))
         data = ast.literal_eval(request.data.decode("utf-8"))
-        return estimator(data)
+        # return estimator(data)
+        resp = make_response(estimator(data))
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
     else:
         return "3. Sorry, the request method is not a POST request."
 
 
-@app.route('/api/v1/on-covid-19')
+@app.route('/api/v1/on-covid-19', methods = ['POST'])
 def raw_estimator_api():
     if request.method == 'POST':
         # data = request.data
