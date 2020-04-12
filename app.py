@@ -182,10 +182,20 @@ def the_estimator_api(format_type):
     if request.method == 'POST':
         if format_type == 'json':
             data = ast.literal_eval(request.data.decode("utf-8"))
-            return estimator(data)
+            print(data)
+            r = Response(response=estimator(data), status=200, mimetype="application/json")
+            r.headers["Content-Type"] = "text/json; charset=utf-8"
+            print(r)
+            return r
+            
         elif format_type == 'xml':
             data = ast.literal_eval(request.data.decode("utf-8"))
-            return json2xml(estimator(data)) #Response(estimator(data), mimetype='text/xml')
+            print(data)
+            r = Response(response=estimator(data), status=200, mimetype="application/xml")
+            r.headers["Content-Type"] = "text/xml; charset=utf-8"
+            print(r)
+            return r
+            # return json2xml(estimator(data)) #Response(estimator(data), mimetype='text/xml')
         else:
             return "This format parameter is not allowed."
     else:
