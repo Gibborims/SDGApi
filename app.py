@@ -151,9 +151,9 @@ def dollarsInFlight(infections_by_time, avg_daily_income_populase, avg_daily_inc
 
 
 
-@app.route("/")
-def home():
-    return "Hello, Flask!"
+# @app.route("/")
+# def home():
+#     return "Hello, Flask!"
 
 @app.route('/api/v1/on-covid-19/', methods = ['POST'])
 def estimator_api_data():
@@ -166,7 +166,9 @@ def estimator_api_data():
         resp.headers['Content-type'] = 'application/json; charset=utf-8'
         return resp
     else:
-        return "3. Sorry, the request method is not a POST request."
+        resp = make_response({"resp_desc":"1. Sorry, the request method is not a POST request."})
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
 
 
 @app.route('/api/v1/on-covid-19', methods = ['POST'])
@@ -180,7 +182,9 @@ def raw_estimator_api():
         return resp
         # return redirect(url_for('estimator_api_data', incoming_data = data))
     else:
-        return "1. Sorry, the request method is not a POST request."
+        resp = make_response({"resp_desc":"2. Sorry, the request method is not a POST request."})
+        resp.headers['Content-type'] = 'application/json; charset=utf-8'
+        return resp
 
 
 
@@ -213,7 +217,7 @@ def the_estimator_api_xml():
         resp.headers['Content-type'] = 'application/xml; charset=utf-8'
         return resp
     else:
-        resp = make_response('<resp_desc>3. Sorry, the request method is not a POST request.</resp_desc>')
+        resp = make_response('<resp_desc>4. Sorry, the request method is not a POST request.</resp_desc>')
         resp.headers['Content-type'] = 'application/xml; charset=utf-8'
         return resp
 
