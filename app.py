@@ -13,7 +13,7 @@ def home():
 @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
 def the_estimator_api(format_type):
     if request.method == 'POST':
-        data = request.data
+        data = request.form["region"]
             if format_type == 'json':
                 return data
             elif format_type == 'xml':
