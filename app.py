@@ -133,7 +133,8 @@ def home():
 def estimator_api_data():
     if request.method == 'POST':
         data = request.data
-        return data
+        out_put_data = estimator(data)
+        return out_put_data
     else:
         return "3. Sorry, the request method is not a POST request."
 
@@ -142,7 +143,8 @@ def estimator_api_data():
 def raw_estimator_api():
     if request.method == 'POST':
         data = request.data
-        return data
+        out_put_data = estimator(data)
+        return out_put_data
         # return redirect(url_for('estimator_api_data', incoming_data = data))
     else:
         return "2. Sorry, the request method is not a POST request."
@@ -153,9 +155,11 @@ def the_estimator_api(format_type):
     if request.method == 'POST':
         data = request.data
         if format_type == 'json':
-            return data
+            out_put_data = estimator(data)
+            return out_put_data
         elif format_type == 'xml':
-            return data
+            out_put_data = estimator(data)
+            return out_put_data
         else:
             return "This format parameter is not allowed."
     else:
