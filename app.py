@@ -3,6 +3,8 @@ app = Flask(__name__)
 
 
 import math
+import json
+import ast
 
 def estimator(data):
   output_data = {}
@@ -132,9 +134,10 @@ def home():
 @app.route('/api/v1/on-covid-19/', methods = ['POST'])
 def estimator_api_data():
     if request.method == 'POST':
-        data = request.data
-        out_put_data = estimator(data)
-        return out_put_data
+        # data = request.data
+        # print(ast.literal_eval(request.data.decode("utf-8")))
+        data = ast.literal_eval(request.data.decode("utf-8"))
+        return estimator(data)
     else:
         return "3. Sorry, the request method is not a POST request."
 
@@ -142,9 +145,9 @@ def estimator_api_data():
 @app.route('/api/v1/on-covid-19')
 def raw_estimator_api():
     if request.method == 'POST':
-        data = request.data
-        out_put_data = estimator(data)
-        return out_put_data
+        # data = request.data
+        data = ast.literal_eval(request.data.decode("utf-8"))
+        return estimator(data)
         # return redirect(url_for('estimator_api_data', incoming_data = data))
     else:
         return "2. Sorry, the request method is not a POST request."
@@ -153,13 +156,12 @@ def raw_estimator_api():
 @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
 def the_estimator_api(format_type):
     if request.method == 'POST':
-        data = request.data
         if format_type == 'json':
-            out_put_data = estimator(data)
-            return out_put_data
+            data = ast.literal_eval(request.data.decode("utf-8"))
+            return estimator(data)
         elif format_type == 'xml':
-            out_put_data = estimator(data)
-            return out_put_data
+            data = ast.literal_eval(request.data.decode("utf-8"))
+            return estimator(data)
         else:
             return "This format parameter is not allowed."
     else:
