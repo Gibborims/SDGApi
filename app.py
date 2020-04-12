@@ -9,6 +9,22 @@ app = Flask(__name__)
 def home():
     return "Hello, Flask!"
 
+@app.route('/api/v1/on-covid-19/<incoming_data>')
+def estimator_api_data(incoming_data):
+    if request.method == 'GET':
+        return incoming_data
+    else:
+        return "3. Sorry, the request method is not a POST request."
+
+
+@app.route('/api/v1/on-covid-19', methods = ['POST'])
+def raw_estimator_api(format_type):
+    if request.method == 'POST':
+        data = request.data
+        return redirect(url_for('estimator_api_data', incoming_data = data))
+    else:
+        return "2. Sorry, the request method is not a POST request."
+
 
 @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
 def the_estimator_api(format_type):
