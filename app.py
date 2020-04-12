@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, Response
 app = Flask(__name__)
 
 
@@ -161,7 +161,7 @@ def the_estimator_api(format_type):
             return estimator(data)
         elif format_type == 'xml':
             data = ast.literal_eval(request.data.decode("utf-8"))
-            return estimator(data)
+            return Response(estimator(data), mimetype='text/xml')
         else:
             return "This format parameter is not allowed."
     else:
