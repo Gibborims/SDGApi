@@ -17,7 +17,7 @@ def estimator_api_data(incoming_data):
         return "3. Sorry, the request method is not a POST request."
 
 
-@app.route('/api/v1/on-covid-19', methods = ['POST'])
+@app.route('/api/v1/on-covid-19', methods = ['POST', 'GET'])
 def raw_estimator_api(format_type):
     if request.method == 'POST':
         data = request.data
