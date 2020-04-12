@@ -129,15 +129,16 @@ def dollarsInFlight(infections_by_time, avg_daily_income_populase, avg_daily_inc
 def home():
     return "Hello, Flask!"
 
-@app.route('/api/v1/on-covid-19/<incoming_data>')
-def estimator_api_data(incoming_data):
-    if request.method == 'GET':
-        return incoming_data
+@app.route('/api/v1/on-covid-19/', methods = ['POST'])
+def estimator_api_data():
+    if request.method == 'POST':
+        data = request.data
+        return data
     else:
         return "3. Sorry, the request method is not a POST request."
 
 
-@app.route('/api/v1/on-covid-19', methods = ['POST'])
+@app.route('/api/v1/on-covid-19')
 def raw_estimator_api():
     if request.method == 'POST':
         data = request.data
