@@ -14,12 +14,12 @@ def home():
 def the_estimator_api(format_type):
     if request.method == 'POST':
         data = request.form["region"]
-            if format_type == 'json':
-                return data
-            elif format_type == 'xml':
-                return data
-            else:
-                return data
+        if format_type == 'json':
+            return data
+        elif format_type == 'xml':
+            return data
+        else:
+            return data
     else:
         return "Sorry, the request method is not a POST request."
 
