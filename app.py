@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 app = Flask(__name__)
 
 
@@ -35,7 +35,7 @@ def the_estimator_api(format_type):
         elif format_type == 'xml':
             return data
         else:
-            return data
+            return "This format parameter is not allowed."
     else:
         return "Sorry, the request method is not a POST request."
 
