@@ -242,35 +242,35 @@ def the_estimator_api_xml():
 
 @app.route('/api/v1/on-covid-19/logs', methods = ['GET'])
 def the_estimator_api_logs():
-    if request.method == 'GET':
-        # resp = send_file("estimator_log.txt")
-        # resp.headers['Content-type'] = 'text/plain; charset=utf-8'
+    # if request.method == 'GET':
+      # resp = send_file("estimator_log.txt")
+      # resp.headers['Content-type'] = 'text/plain; charset=utf-8'
 
-        # f = request.files['file']
-        # f.save(secure_filename(f.filename))
-        # content = f.read()
-        
-        file_name = "estimator_log.txt"
-        file = pathlib.Path(file_name)
-        if file.exists ():
-            print ("File exist")
-            # with open(file_name, "r") as f:
-            #     content = f.read()
+      # f = request.files['file']
+      # f.save(secure_filename(f.filename))
+      # content = f.read()
+      
+      file_name = "estimator_log.txt"
+      file = pathlib.Path(file_name)
+      if file.exists ():
+          print ("File exist")
+          # with open(file_name, "r") as f:
+          #     content = f.read()
 
-            resp = make_response("logs")
-            resp.headers['Content-Type'] = 'text/plain;charset=UTF-8'
-            # resp.headers['Content-Disposition'] = 'attachment;filename=estimator_log.txt'
-            return resp
-        else:
-            print ("File not exist")
-            resp = make_response("logs")
-            resp.headers['Content-type'] = 'text/plain; charset=utf-8'
-            return resp
+          resp = make_response("logs")
+          resp.headers['Content-Type'] = 'text/plain;charset=UTF-8'
+          # resp.headers['Content-Disposition'] = 'attachment;filename=estimator_log.txt'
+          return resp
+      else:
+          print ("File not exist")
+          resp = make_response("logs")
+          resp.headers['Content-type'] = 'text/plain; charset=utf-8'
+          return resp
         
 
         
-    else:
-        pass
+    # else:
+    #     pass
 
 
 # @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
