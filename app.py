@@ -21,6 +21,13 @@ def estimator_logger(response):
     req_path = str(request.path)
     req_status = str(response.status_code)
     req_time = str(int(round(time.time() - g.starter, 2) * 1000)) #str(round(float((time.time() - g.starter) * 1000), 2))
+    if  len(req_time) >= 2:
+      req_time = req_time
+    elif len(req_time) == 1:
+      req_time = "0{}".format(req_time)
+    else:
+      req_time = "00"
+
     with open(filename,"a") as fo:
         fo.write("{}    {}    {}    {}ms\n".format(req_method, req_path, req_status, req_time))
     
