@@ -1,11 +1,31 @@
-from flask import Flask, request, redirect, url_for, Response, make_response
-app = Flask(__name__)
-
-
+from flask import Flask, request, g, make_response, send_file
 import math
 import json
 import ast
+import time
+import pathlib
 
+app = Flask(__name__)
+
+
+@app.before_request
+def begin_timer():
+    g.starter = time.time()
+
+
+@app.after_request
+def estimator_logger(response):
+    
+    req_method = str(request.method)
+    req_path = str(request.path)
+    req_status = str(response.status_code)
+    req_time = str(int(round(time.time() - g.starter, 2) * 1000)) #str(round(float((time.time() - g.starter) * 1000), 2))
+    with open("estimator_log.txt","a") as fo:
+        fo.write("{}    {}    {}    {}ms\n".format(req_method, req_path, req_status, req_time))
+    
+    return response
+
+    
 def json2xml(json_obj, line_padding=""):
     result_list = list()
 
@@ -200,6 +220,41 @@ def the_estimator_api_xml():
         resp = make_response('<resp_desc>4. Sorry, the request method is not a POST request.</resp_desc>')
         resp.headers['Content-type'] = 'application/xml; charset=utf-8'
         return resp
+
+
+
+
+@app.route('/api/v1/on-covid-19/logs', methods = ['POST'])
+def the_estimator_api_logs():
+    if request.method == 'POST':
+        # resp = send_file("estimator_log.txt")
+        # resp.headers['Content-type'] = 'text/plain; charset=utf-8'
+
+        # f = request.files['file']
+        # f.save(secure_filename(f.filename))
+        # content = f.read()
+        
+        file_name = "estimator_log.txt"
+        file = pathlib.Path(file_name)
+        if file.exists ():
+            print ("File exist")
+            with open(file_name, "r") as f:
+                content = f.read()
+
+            resp = make_response(content)
+            resp.headers['Content-Type'] = 'text/plain;charset=UTF-8'
+            resp.headers['Content-Disposition'] = 'attachment;filename=SmartFileName.txt'
+            return resp
+        else:
+            print ("File not exist")
+            resp = make_response({"resp_desc":"1. Sorry, File not exist."})
+            resp.headers['Content-type'] = 'application/json; charset=utf-8'
+            return resp
+        
+
+        
+    else:
+        pass
 
 
 # @app.route('/api/v1/on-covid-19/<format_type>', methods = ['POST'])
