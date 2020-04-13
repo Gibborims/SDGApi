@@ -15,14 +15,30 @@ def begin_timer():
 
 @app.after_request
 def estimator_logger(response):
-    
+    print("RESPONSE:: {}".format(response))
+    filename = "estimator_log.txt"
     req_method = str(request.method)
     req_path = str(request.path)
     req_status = str(response.status_code)
     req_time = str(int(round(time.time() - g.starter, 2) * 1000)) #str(round(float((time.time() - g.starter) * 1000), 2))
-    with open("estimator_log.txt","a") as fo:
+    with open(filename,"a") as fo:
         fo.write("{}    {}    {}    {}ms\n".format(req_method, req_path, req_status, req_time))
     
+    if req_path == "/api/v1/on-covid-19/logs":
+      print("logs request url passed...")
+      data = response.data #ast.literal_eval(response.data.decode("utf-8")) #response.get_json()
+      # data = json.loads(response.get_data())
+      print("====================")
+      print(data)
+      
+      print("open and read log file ...")
+      with open(filename, "r") as f:
+        content = f.read()
+
+      # data['logs'] = content
+      response.set_data(content)
+      # response.data = json.dumps(data)
+
     return response
 
     
@@ -238,17 +254,17 @@ def the_estimator_api_logs():
         file = pathlib.Path(file_name)
         if file.exists ():
             print ("File exist")
-            with open(file_name, "r") as f:
-                content = f.read()
+            # with open(file_name, "r") as f:
+            #     content = f.read()
 
-            resp = make_response(content)
+            resp = make_response("logs")
             resp.headers['Content-Type'] = 'text/plain;charset=UTF-8'
-            resp.headers['Content-Disposition'] = 'attachment;filename=SmartFileName.txt'
+            # resp.headers['Content-Disposition'] = 'attachment;filename=estimator_log.txt'
             return resp
         else:
             print ("File not exist")
-            resp = make_response({"resp_desc":"1. Sorry, File not exist."})
-            resp.headers['Content-type'] = 'application/json; charset=utf-8'
+            resp = make_response("logs")
+            resp.headers['Content-type'] = 'text/plain; charset=utf-8'
             return resp
         
 
