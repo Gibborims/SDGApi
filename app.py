@@ -240,9 +240,9 @@ def the_estimator_api_xml():
 
 
 
-@app.route('/api/v1/on-covid-19/logs', methods = ['POST'])
+@app.route('/api/v1/on-covid-19/logs', methods = ['GET'])
 def the_estimator_api_logs():
-    if request.method == 'POST':
+    if request.method == 'GET':
         # resp = send_file("estimator_log.txt")
         # resp.headers['Content-type'] = 'text/plain; charset=utf-8'
 
