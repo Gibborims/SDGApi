@@ -203,7 +203,7 @@ def raw_estimator_api():
         resp = make_response(estimator(data))
         resp.headers['Content-type'] = 'application/json; charset=utf-8'
         return resp
-        # return redirect(url_for('estimator_api_data', incoming_data = data))
+        ## return redirect(url_for('estimator_api_data', incoming_data = data))
     else:
         resp = make_response({"resp_desc":"2. Sorry, the request method is not a POST request."})
         resp.headers['Content-type'] = 'application/json; charset=utf-8'
